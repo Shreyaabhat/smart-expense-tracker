@@ -28,11 +28,6 @@
 - Auto-detects days until due date
 - Alerts for overdue and upcoming bills
 
-### 🎯 Savings Challenges
-- 30 Day, 52 Week, 100 Day, or Custom challenges
-- Daily check-ins with progress tracking
-- Emoji milestone rewards 🎯 ⚡ 💪 🔥 🏆
-
 ### 🐷 Piggy Bank
 - Personal savings vault with a savings goal
 - Track deposits and goal progress
