@@ -1,0 +1,79 @@
+# ============================================
+# Docker Compose — Full Stack
+# Run everything with: docker compose up
+# ============================================
+
+version: "3.9"
+
+services:
+  # ---- MongoDB Database ----
+  mongodb:
+    image: mongo:7.0
+    container_name: expense-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: smart-expense-tracker
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # ---- ML Microservice ----
+  ml-service:
+    build:
+      context: ./ml-service
+    container_name: expense-ml
+    ports:
+      - "8000:8000"
+    volumes:
+      - ml_models:/app/model  # Persist trained models
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ---- Backend API ----
+  backend:
+    build:
+      context: ./backend
+    container_name: expense-backend
+    ports:
+      - "5000:5000"
+    environment:
+      NODE_ENV: production
+      PORT: 5000
+      MONGODB_URI: mongodb://mongodb:27017/smart-expense-tracker
+      JWT_SECRET: ${JWT_SECRET:-change-this-secret-in-production}
+      JWT_EXPIRES_IN: 7d
+      ML_SERVICE_URL: http://ml-service:8000
+      FRONTEND_URL: http://localhost:3000
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      ml-service:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # ---- Frontend ----
+  frontend:
+    build:
+      context: ./frontend
+    container_name: expense-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  mongodb_data:
+    driver: local
+  ml_models:
+    driver: local
