@@ -5,7 +5,7 @@
 
 import { Pencil, Trash2, RefreshCw } from "lucide-react";
 import { formatDate, getCategoryColor } from "../../utils/helpers";
-import { CATEGORY_ICONS } from "./Categoryconfig";
+import { CATEGORY_ICONS } from "./CategoryConfig";
 
 const CURRENCY_SYMBOLS = {
   USD: "$", EUR: "€", GBP: "£", INR: "₹", CAD: "CA$",

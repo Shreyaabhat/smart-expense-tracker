@@ -5,7 +5,7 @@
 // ============================================
 
 import { useState } from "react";
-import { CATEGORIES } from "./Categoryconfig";
+import { CATEGORIES } from "./CategoryConfig";
 import { getErrorMessage } from "../../utils/helpers";
 import LoadingSpinner from "../common/LoadingSpinner";
 

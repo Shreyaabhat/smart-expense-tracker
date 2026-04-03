@@ -9,7 +9,7 @@ import useExpenses from "../hooks/useExpenses";
 import ExpenseItem from "../components/expenses/ExpenseItem";
 import LoadingSpinner from "../components/common/LoadingSpinner";
 import ExpenseForm from "../components/expenses/ExpenseForm";
-import { CATEGORIES } from "../components/expenses/Categoryconfig";
+import { CATEGORIES } from "../components/expenses/CategoryConfig";
 import { getErrorMessage } from "../utils/helpers";
 import { useAuth } from "../context/AuthContext";
 
